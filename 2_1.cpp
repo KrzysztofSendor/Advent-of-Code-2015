@@ -20,10 +20,7 @@ int main(int argc, char const *argv[]) {
     }
     mesurement[2] = atoi(line.c_str());
     std::sort(mesurement, mesurement + 3);
-    // std::cout << mesurement[0] << std::endl;
-    // std::cout << mesurement[1] << std::endl;
-    // std::cout << mesurement[2] << std::endl;
-    output += mesurement[0]*2 + mesurement[1]*2 + mesurement[2]*2 + mesurement[0]*mesurement[1];
+    output += 2*mesurement[0]*mesurement[1] + 2*mesurement[0]*mesurement[2] + 2*mesurement[1]*mesurement[2] + mesurement[0]*mesurement[1];
   }
   std::cout << "wynik: " << output << std::endl;
   return 0;
