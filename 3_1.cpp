@@ -11,14 +11,33 @@ int main(int argc, char const *argv[]) {
   int maxEast = 0;
   int maxWest = 0;
 
+  int santaPositionX = 0;
+  int santaPositionY = 0;
+
   while (std::getline(file,line)) {
     for (size_t i = 0; i < line.length(); i++) {
-      if (line.at(i) == '>') maxEast += 1;
-      if (line.at(i) == '<') maxWest += 1;
-      if (line.at(i) == '^') maxNorth += 1;
-      if (line.at(i) == 'v') maxSouth += 1;
+      if (line.at(i) == '>' && santaPositionX == maxEast) {
+        maxEast += 1;
+        santaPositionX += 1;
+      }
+      if (line.at(i) == '<' && santaPositionX == maxWest) {
+        maxWest -= 1;
+        santaPositionX -= 1;
+      }
+      if (line.at(i) == '^' && santaPositionY == maxNorth) {
+        maxNorth += 1;
+        santaPositionY += 1;
+      }
+      if (line.at(i) == 'v' && santaPositionY == maxSouth) {
+        maxSouth -= 1;
+        santaPositionY -= 1;
+      }
+      // std::cout << santaPositionY << ":" << santaPositionX << std::endl;
     }
   }
+
+  maxWest = -maxWest;
+  maxSouth = -maxSouth;
 
   std::cout << "maxEast: " << maxEast << std::endl;
   std::cout << "maxWest: " << maxWest << std::endl;
@@ -30,36 +49,44 @@ int main(int argc, char const *argv[]) {
 
   std::cout << mapSizeY << "x" << mapSizeX << std::endl;
 
-  int santaMap[mapSizeY][mapSizeX];
+  int **santaMap = new int*[mapSizeY];
+  for (size_t i = 0; i < mapSizeY; i++) {
+    santaMap[i] = new int[mapSizeX];
+  }
 
-  // for (size_t i = 0; i < mapSizeY; i++) {
-  //   for (size_t j = 0; j < mapSizeX; j++) {
-  //     santaMap[i][j] = 0;
-  //   }
-  // }
+  for (size_t i = 0; i < mapSizeY; i++) {
+    for (size_t j = 0; j < mapSizeX; j++) {
+      santaMap[i][j] = 0;
+    }
+  }
 
-  // int santaPositionX = maxWest+1;
-  // int santaPositionY = maxSouth+1;
-  //
-  // santaMap[santaPositionY][santaPositionX] += 1;
-  //
-  // while (std::getline(file,line)) {
-  //   for (size_t i = 0; i < line.length(); i++) {
-  //     if (line.at(i) == '>') santaPositionX += 1;
-  //     if (line.at(i) == '<') santaPositionX -= 1;
-  //     if (line.at(i) == '^') santaPositionY += 1;
-  //     if (line.at(i) == 'v') santaPositionX -= 1;
-  //     santaMap[santaPositionY][santaPositionX] += 1;
-  //   }
-  // }
-  //
-  // int output = 0;
-  //
-  // for (size_t i = 0; i < maxNorth+maxSouth+1; i++) {
-  //   for (size_t j = 0; j < maxEast+maxWest+1; j++) {
-  //     if (santaMap[i][j] >= 1) output += 1;
-  //   }
-  // }
+  santaPositionX = maxWest + 1;
+  santaPositionY = maxSouth + 1;
+
+  santaMap[santaPositionY][santaPositionX] += 1;
+
+    for (size_t i = 0; i < line.length(); i++) {
+      if (line.at(i) == '>') santaPositionX += 1;
+      if (line.at(i) == '<') santaPositionX -= 1;
+      if (line.at(i) == '^') santaPositionY += 1;
+      if (line.at(i) == 'v') santaPositionX -= 1;
+      santaMap[santaPositionY][santaPositionX] += 1;
+    }
+
+  int output = 0;
+
+  for (size_t i = 0; i < maxNorth+maxSouth+1; i++) {
+    for (size_t j = 0; j < maxEast+maxWest+1; j++) {
+      if (santaMap[i][j] >= 1) output += 1;
+    }
+  }
+
+  std::cout << "wynik: " << output <<  std::endl;
+
+  for (size_t i = 0; i < mapSizeY; i++) {
+    delete[] santaMap[i];
+  }
+  delete[] santaMap;
 
   return 0;
 }
