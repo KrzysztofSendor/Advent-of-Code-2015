@@ -16,23 +16,22 @@ int main(int argc, char const *argv[]) {
 
   while (std::getline(file,line)) {
     for (size_t i = 0; i < line.length(); i++) {
-      if (line.at(i) == '>' && santaPositionX == maxEast) {
-        maxEast += 1;
+      if (line.at(i) == '>') {
         santaPositionX += 1;
+        if (santaPositionX == maxEast) maxEast += 1;
       }
-      if (line.at(i) == '<' && santaPositionX == maxWest) {
-        maxWest -= 1;
+      if (line.at(i) == '<') {
         santaPositionX -= 1;
+        if (santaPositionX == maxWest) maxWest -= 1;
       }
-      if (line.at(i) == '^' && santaPositionY == maxNorth) {
-        maxNorth += 1;
+      if (line.at(i) == '^') {
         santaPositionY += 1;
+        if (santaPositionY == maxNorth) maxNorth += 1;
       }
-      if (line.at(i) == 'v' && santaPositionY == maxSouth) {
-        maxSouth -= 1;
+      if (line.at(i) == 'v') {
         santaPositionY -= 1;
+        if (santaPositionY == maxSouth) maxSouth -= 1;
       }
-      // std::cout << santaPositionY << ":" << santaPositionX << std::endl;
     }
   }
 
