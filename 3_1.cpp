@@ -64,18 +64,18 @@ int main(int argc, char const *argv[]) {
 
   santaMap[santaPositionY][santaPositionX] += 1;
 
-    for (size_t i = 0; i < line.length(); i++) {
-      if (line.at(i) == '>') santaPositionX += 1;
-      if (line.at(i) == '<') santaPositionX -= 1;
-      if (line.at(i) == '^') santaPositionY += 1;
-      if (line.at(i) == 'v') santaPositionX -= 1;
-      santaMap[santaPositionY][santaPositionX] += 1;
-    }
+  for (size_t i = 0; i < line.length(); i++) {
+    if (line.at(i) == '>') santaPositionX += 1;
+    if (line.at(i) == '<') santaPositionX -= 1;
+    if (line.at(i) == '^') santaPositionY += 1;
+    if (line.at(i) == 'v') santaPositionY -= 1;
+    santaMap[santaPositionY][santaPositionX] += 1;
+  }
 
   int output = 0;
 
-  for (size_t i = 0; i < maxNorth+maxSouth+1; i++) {
-    for (size_t j = 0; j < maxEast+maxWest+1; j++) {
+  for (size_t i = 0; i < mapSizeY; i++) {
+    for (size_t j = 0; j < mapSizeX; j++) {
       if (santaMap[i][j] >= 1) output += 1;
     }
   }
